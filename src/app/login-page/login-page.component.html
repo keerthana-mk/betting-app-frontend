@@ -1,0 +1,32 @@
+<div class="wrapper">
+    <div class="card-switch">
+        <label class="switch">
+           <input type="checkbox" class="toggle" value=true>
+           <span class="slider"></span>
+           <span class="card-side"></span>
+           <div class="flip-card__inner">
+              <div class="flip-card__front">
+                 <div class="title">Log in</div>
+                 <form [formGroup]="loginForm" class="flip-card__form" (ngSubmit)="onSubmitLogin()">
+                    <input class="form-control flip-card__input" formControlName="emailAddress"
+                    name="email" placeholder="Email" type="email">
+                    <input formControlName="password" class="flip-card__input" name="password" placeholder="Password" type="password">
+                    <button class="flip-card__btn">Login</button>
+                 </form>
+              </div>
+              <div class="flip-card__back">
+                 <div class="title">Sign up</div>
+                 <form [formGroup]="registerForm" class="flip-card__form" (ngSubmit)="registerUser()">
+                    <input class="flip-card__input" formControlName="firstName" placeholder="First Name" type="name">
+                    <input class="flip-card__input" formControlName="lastName" placeholder="Last Name" type="name">
+                    <input class="flip-card__input" formControlName="emailAddress" name="email" placeholder="Email" type="email">
+                    <input class="flip-card__input" name="password" formControlName="password" placeholder="Password" type="password">
+                    <input class="flip-card__input" name="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password" type="password">
+                    <input class="flip-card__input" placeholder="Contact" formControlName="contact" type="text">
+                    <button class="flip-card__btn">Confirm</button>
+                 </form>
+              </div>
+           </div>
+        </label>
+    </div>   
+</div>

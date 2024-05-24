@@ -1,0 +1,21 @@
+<app-navigation-header></app-navigation-header>
+  <div class = "app-page">
+<div class="game-page-container">
+    <div class="create-game-container">
+            <a href="javascript:void(0)" class="eightbit-btn" (click)="createNewGame()">Create Game</a>   
+    </div>
+    <div class="join-game-container">
+        <div class="list-games-header">
+            <span> Join Game</span>
+        </div>
+        <div class="list-games-container scrollbar" id="scrollbar1">
+            <div *ngFor="let gameDetail of gameDetail" class="games-list">
+                <span class="game-list-text">{{gameDetail['gamename']}}</span> 
+                <span class="game-list-text"> {{gameDetail.currentPlayers}}/{{gameDetail.totalPlayers}} people in game</span>
+                <button mat-button-raised class="eightbit-btn eightbit-btn--reset"  (click)="joinGame(gameDetail.game_uuid)">Join</button>
+                <!-- [routerLink]="['/betting-game']" [queryParams]="{'gameId': gameDetail.game_uuid}" -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>

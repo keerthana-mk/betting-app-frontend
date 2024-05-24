@@ -1,0 +1,52 @@
+<app-navigation-header></app-navigation-header>
+<div class="app-page">
+    <div class="player-page-container">
+        <div class="game-details">
+            <div class="player-page-header-text"> <span
+                    style="padding-left: 20px; color: rgb(29, 249, 4); letter-spacing: 0.5cap;"> {{gameName}}</span>
+            </div>
+            <div class="balance">
+                Balance: <span color="white"> &nbsp; {{balance}} &nbsp;</span>
+                <mat-icon class="paid" style="color: yellow; margin-right: 10px;">paid</mat-icon>
+            </div>
+        </div>
+
+        <div class="place-bet-container" *ngIf="isInWaitingRoom()">
+            <div class="general-message"> Please wait while other players join the room.</div>
+        </div>
+
+        <div class="place-bet-container" *ngIf="unknownGameState()">
+            <div class="general-message"> OOPS! The game you tried to enter does not exist! Try joining other game!</div>
+            <button mat-button (click)="goToLobby()" class="lobby-button">Go Back</button>
+        </div>
+
+        <div class="place-bet-container" *ngIf="isSkippingRound()">
+            <div class="waiting-message"> ROUND {{round}}</div>
+            <div class="general-message"> Congratulations! You are the winner of the previous round!</div>
+            <div class="general-message"> Please wait for other players to complete the current round!</div>
+        </div>
+
+        <div class="place-bet-container" *ngIf="isGameComplete()">
+            <div class="waiting-message">
+                {{getGameCompletionMessage()}}
+            </div>
+            <button mat-button (click)="goToLobby()" class="lobby-button">Go Back</button>
+        </div>
+
+        <div class="place-bet-container" *ngIf="shouldAllowBetting()">
+            <div class="waiting-message"> ROUND {{round}}</div>
+            <div class="waiting-message">
+                {{getBetMessage()}}
+            </div>
+            <div class="input-container">
+                <input type="number" placeholder="Enter your bet amount..." value="{{betChosen}}"
+                    (keyup)="setBetChosen($event)" [readonly]="betPlaced">
+                <button class="button" (click)="isPlaceBetClicked()" [disabled]="betPlaced">Place Bet</button>
+            </div>
+            <div class="timer-container">
+                {{display}} seconds remaining
+            </div>
+        </div>
+        
+    </div>
+</div>
