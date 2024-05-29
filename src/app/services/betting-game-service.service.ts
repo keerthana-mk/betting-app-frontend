@@ -57,7 +57,7 @@ export class BettingGameServiceService {
 
   constructor(private storageService: StorageService ) {
     this.webSocket = new Socket({
-      url: "wss://tgame.busillis.com/",
+      url: "https://tgame.busillis.com/",
       options: {
         reconnection: true
       },
