@@ -65,7 +65,7 @@ export class BettingGameServiceService {
       },
     });
     
-    this.webSocket.on('disconnect', (reason) => {
+    this.webSocket.on('disconnect', (reason:any) => {
       console.log('WebSocket disconnected:', reason);
     });
     this.handleLobby();
