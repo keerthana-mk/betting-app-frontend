@@ -54,6 +54,9 @@ export class BettingGameServiceService {
 
   countdown$: Observable<number> | undefined;
   private webSocket: Socket;
+  private reconnectAttempts: number = 0;
+  private maxReconnectAttempts: number = 10;
+  private reconnectInterval: number = 3000;
 
   constructor(private storageService: StorageService ) {
     this.webSocket = new Socket({
