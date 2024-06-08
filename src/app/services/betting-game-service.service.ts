@@ -80,6 +80,11 @@ export class BettingGameServiceService {
       console.log('WebSocket connection failed:', error);
       this.retryConnection();
     });
+
+    this.webSocket.on('error', (error: any) => {
+      console.log('WebSocket connection error:', error);
+      this.retryConnection();
+    });
     
     this.webSocket.on('connect', () => {
       console.log('WebSocket connected');
