@@ -64,6 +64,10 @@ export class BettingGameServiceService {
         reconnectionDelay: 3000 
       },
     });
+    
+    this.webSocket.on('disconnect', (reason) => {
+      console.log('WebSocket disconnected:', reason);
+    });
     this.handleLobby();
     this.handleListGames();
     this.handleStartGame();
