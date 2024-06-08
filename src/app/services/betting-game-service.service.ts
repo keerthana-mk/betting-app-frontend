@@ -59,14 +59,18 @@ export class BettingGameServiceService {
     this.webSocket = new Socket({
       url: "https://tgame.busillis.com/",
       options: {
-        reconnection: true,
-        reconnectionAttempts: 10,
-        reconnectionDelay: 3000 
+        reconnection: False
       },
     });
     
     this.webSocket.on('disconnect', (reason:any) => {
       console.log('WebSocket disconnected:', reason);
+      this.retryConnection();
+    });
+
+    this.webSocket.on('connect', () => {
+      console.log('WebSocket connected');
+      this.reconnectAttempts = 0;
     });
     this.handleLobby();
     this.handleListGames();
@@ -230,4 +234,17 @@ export class BettingGameServiceService {
     });
     this.storageService.setItem('inGame', 'true');
   }
+
+  private retryConnection() {
+    if (this.reconnectAttempts < this.maxReconnectAttempts) {
+        setTimeout(() => {
+            console.log(`Reconnecting... (Attempt ${this.reconnectAttempts + 1})`);
+            this.webSocket.connect();
+            this.reconnectAttempts++;
+        }, this.reconnectInterval);
+    } else {
+        console.log('Max reconnect attempts reached.');
+    }
+}
+
 }
