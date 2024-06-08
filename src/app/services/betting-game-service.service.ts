@@ -71,6 +71,16 @@ export class BettingGameServiceService {
       this.retryConnection();
     });
 
+    this.webSocket.on('connect_error', (error: any) => {
+      console.log('WebSocket connection error:', error);
+      this.retryConnection();
+    });
+
+    this.webSocket.on('connect_failed', (error: any) => {
+      console.log('WebSocket connection failed:', error);
+      this.retryConnection();
+    });
+    
     this.webSocket.on('connect', () => {
       console.log('WebSocket connected');
       this.reconnectAttempts = 0;
