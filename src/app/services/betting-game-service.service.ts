@@ -241,6 +241,7 @@ export class BettingGameServiceService {
   private retryConnection() {
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       setTimeout(() => {
+            this.disconnectSocket();
             console.log(`Reconnecting... (Attempt ${this.reconnectAttempts + 1})`);
             this.webSocket.connect();
             this.reconnectAttempts++;
