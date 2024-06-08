@@ -240,10 +240,11 @@ export class BettingGameServiceService {
 
   private retryConnection() {
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
-      console.log(`Reconnecting... (Attempt ${this.reconnectAttempts + 1})`);
-      this.webSocket.connect();
-      this.reconnectAttempts++;
-        
+      setTimeout(() => {
+            console.log(`Reconnecting... (Attempt ${this.reconnectAttempts + 1})`);
+            this.webSocket.connect();
+            this.reconnectAttempts++;
+        }, this.reconnectInterval);
     } else {
         console.log('Max reconnect attempts reached.');
     }
