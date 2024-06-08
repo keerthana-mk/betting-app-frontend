@@ -62,7 +62,7 @@ export class BettingGameServiceService {
     this.webSocket = new Socket({
       url: "https://tgame.busillis.com/",
       options: {
-        reconnection: false
+        reconnection: true
       },
     });
     
