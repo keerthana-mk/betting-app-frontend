@@ -20,6 +20,7 @@ export class LobbyComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.bettingGameService.reinitializeSocket();
     this.bettingGameService.fetchAllGames();
 
     this.bettingGameService.getGameDetails().subscribe(games => {

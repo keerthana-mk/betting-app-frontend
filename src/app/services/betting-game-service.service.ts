@@ -60,8 +60,9 @@ export class BettingGameServiceService {
 
   constructor(private storageService: StorageService ) {
     this.webSocket = new Socket({
-      url: "https://tgame.busillis.com/",
+      url: "wss://tgame.busillis.com/",
       options: {
+        transports: ['polling'], 
         reconnection: true
       },
     });
@@ -259,16 +260,21 @@ export class BettingGameServiceService {
   }
 
   private retryConnection() {
-    if (this.reconnectAttempts < this.maxReconnectAttempts) {
-      setTimeout(() => {
-            this.disconnectSocket();
-            console.log(`Reconnecting... (Attempt ${this.reconnectAttempts + 1})`);
-            this.webSocket.connect();
-            this.reconnectAttempts++;
-        }, this.reconnectInterval);
-    } else {
-        console.log('Max reconnect attempts reached.');
-    }
+    // if (this.reconnectAttempts < this.maxReconnectAttempts) {
+    //   setTimeout(() => {
+    //         this.disconnectSocket();
+    //         console.log(`Reconnecting... (Attempt ${this.reconnectAttempts + 1})`);
+    //         this.webSocket.connect();
+    //         this.reconnectAttempts++;
+    //     }, this.reconnectInterval);
+    // } else {
+    //     console.log('Max reconnect attempts reached.');
+    // }
+}
+
+reinitializeSocket() {
+  this.webSocket.disconnect()
+  this.webSocket.connect()
 }
 
 }
