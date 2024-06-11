@@ -42,6 +42,9 @@ export class AuthService{
     return this.httpClient.post<LoginResponse>(LOGIN_URL, requestBody);
   }
 
+  isUserAuthenticated() {
+    return this.storageService.getItem('userId') ? true : false;
+  }
 
   resetLocalStorage(){
     this.storageService.setItem('userId', '');

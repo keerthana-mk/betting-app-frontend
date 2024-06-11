@@ -5,12 +5,13 @@ import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     title: 'Login',
-    component: LoginPageComponent,
+    component: LoginPageComponent
   },
   {
     path: 'login',
@@ -23,21 +24,23 @@ export const routes: Routes = [
     component: UserRegistrationComponent,
   },
   {
-      path: 'home',
-      title: 'Homepage',
-      component: LobbyComponent,
+    path: 'home',
+    title: 'Homepage',
+    component: LobbyComponent,
+    canActivate: [authGuard]
   },
   {
-  path: '',
-  title: 'Homepage',
-  component: AppComponent,
-  children: [{
+    path: '',
+    title: 'Homepage',
+    component: AppComponent,
+    children: [{
       path: 'betting-game',
       title: 'BettingGamePage',
-      component: BettingGamePageComponent
+      component: BettingGamePageComponent,
+      canActivate: [authGuard]
+    },
+    ],
   },
-  ],
-},
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

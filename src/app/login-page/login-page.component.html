@@ -9,7 +9,7 @@
                  <div class="title">Log in</div>
                  <form [formGroup]="loginForm" class="flip-card__form" (ngSubmit)="onSubmitLogin()">
                     <input class="form-control flip-card__input" formControlName="emailAddress"
-                    name="email" placeholder="Email" type="email">
+                    name="email" placeholder="Username" type="text">
                     <input formControlName="password" class="flip-card__input" name="password" placeholder="Password" type="password">
                     <button class="flip-card__btn">Login</button>
                  </form>
@@ -19,7 +19,7 @@
                  <form [formGroup]="registerForm" class="flip-card__form" (ngSubmit)="registerUser()">
                     <input class="flip-card__input" formControlName="firstName" placeholder="First Name" type="name">
                     <input class="flip-card__input" formControlName="lastName" placeholder="Last Name" type="name">
-                    <input class="flip-card__input" formControlName="emailAddress" name="email" placeholder="Email" type="email">
+                    <input class="flip-card__input" formControlName="emailAddress" name="email" placeholder="Username" type="text">
                     <input class="flip-card__input" name="password" formControlName="password" placeholder="Password" type="password">
                     <input class="flip-card__input" name="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password" type="password">
                     <input class="flip-card__input" placeholder="Contact" formControlName="contact" type="text">

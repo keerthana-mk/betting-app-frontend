@@ -63,6 +63,7 @@ export class LoginPageComponent {
     console.log('registerUserBody', registerUserBody);
     this.authService.registerUser(registerUserBody).subscribe((data) => {
       if(data.status.toString() == '200') {
+        alert('Registration successful. Please login.')
         window.location.reload();
       } else {
         alert('Registration failed. Try again.');

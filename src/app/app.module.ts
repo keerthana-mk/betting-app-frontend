@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { BettingGamePageComponent } from './betting-game-page/betting-game-page.component';
 import { NavigationHeaderComponent } from './navigation-header/navigation-header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,8 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { HttpClientModule } from '@angular/common/http';
-
-
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -46,7 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCardModule
   ],
   exports:[
   ],
