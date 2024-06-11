@@ -1,8 +1,13 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, debounce, debounceTime, Subject, takeUntil } from 'rxjs';
 import { BettingGameServiceService, Game } from '../services/betting-game-service.service';
 import { StorageService } from '../services/storage.service';
+
+export interface PrevRoundBetDetail {
+  betAmount: number;
+  playerId: string;
+}
 
 @Component({
   selector: 'app-betting-game-page',
@@ -28,18 +33,24 @@ export class BettingGamePageComponent implements OnInit {
 
   status: string = 'new';
 
+  roundBets: PrevRoundBetDetail[] = [];
+
   currentGame: Game = BettingGameServiceService.DEFAULT_GAME;
 
   constructor(private bettingGameService: BettingGameServiceService, private storageService: StorageService, private router: Router) {
 
   }
+  isNumber = (val: any) => typeof val === "number" && val === val;
 
   setBetChosen(event: any) {
-    this.betChosen = event.target.value;
+    this.betChosen = isNaN(Number(event.target.value)) ? -1 : Number(event.target.value)
   }
 
   isPlaceBetClicked() {
-    if (this.betChosen > this.balance) {
+    if (this.betChosen != 0 && this.betChosen < 1) {
+      alert('Invalid bet amount. Enter a valid amount to place bet.')
+    }
+    else if (this.betChosen > this.balance) {
       alert('Insufficient balance. Please choose an appropriate bet!');
     } else {
       this.placeBet(this.betChosen);
@@ -66,16 +77,29 @@ export class BettingGamePageComponent implements OnInit {
 
   handleGameUpdates() {
     this.bettingGameService.gameStatus.pipe(takeUntil(this.ngUnsubscribe)).subscribe(gameStatus => {
-      console.log('handling game state update to ' + gameStatus.status);
+      // console.log('handling game state update to ' + gameStatus.status);
+      clearInterval(this.timerInterval);
       this.status = gameStatus.status;
+      this.roundBets = [];
+      // console.log('gameStatus.roundBets: ' + JSON.stringify(gameStatus.roundBets));
+      // console.log('Object.keys(gameStatus.roundBets): ' + Object.keys(gameStatus.roundBets));
+      for (var playerId of Object.keys(gameStatus.roundBets)) {
+        
+        // console.log('gameStatus.roundBets[playerId][currentbet]: ', playerId, gameStatus.roundBets[playerId]['currentbet']);
+        this.roundBets.push({
+          playerId: playerId,
+          betAmount: gameStatus.roundBets[playerId]['currentbet']
+        })
+      }
+      // console.log('roundBets: ' + JSON.stringify(this.roundBets));
       switch (gameStatus.status) {
         case 'start':
           this.timer(1);
-          setTimeout(() => {
-            if (this.betPlaced == false) {
-              this.placeBet(this.balance);
-            }
-          }, 60000);
+          // setTimeout(() => {
+          //   if (this.betPlaced == false) {
+          //     this.placeBet(this.balance);
+          //   }
+          // }, 60000);
           break;
         case 'waiting':
           break;
@@ -88,15 +112,16 @@ export class BettingGamePageComponent implements OnInit {
           this.betPlaced = false;
           this.round += 1;
           this.timer(1);
-          setTimeout(() => {
-            if (this.betPlaced == false) {
-              this.placeBet(this.balance);
-            }
-          }, 60000);
+          // setTimeout(() => {
+          //   if (this.betPlaced == false) {
+          //     this.placeBet(this.balance);
+          //   }
+          // }, 60000);
           break;
         case 'skipping-round':
           this.betPlaced = false;
           this.round += 1;
+          // clearInterval(this.timerInterval);
           break;
       }
     })
@@ -153,6 +178,7 @@ export class BettingGamePageComponent implements OnInit {
   exitGame() {
     this.storageService.setItem('currentGameId', '');
     this.storageService.setItem('inGame', 'false');
+    this.currentGame = BettingGameServiceService.DEFAULT_GAME;
   }
 
   timer(minute: number) {
@@ -180,10 +206,11 @@ export class BettingGamePageComponent implements OnInit {
 
       if (seconds == 0 ) {
         //call function to place bet and if no value entered. Place all the 200 coins` 
-        // this.placeBet(this.balance);
+        this.placeBet(this.balance);
         clearInterval(this.timerInterval);
       }
     }, 1000);
+
   }
 
   ngOnDestroy(): void {

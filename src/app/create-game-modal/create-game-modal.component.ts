@@ -63,7 +63,7 @@ export class CreateGameModalComponent implements OnInit{
     }
     if (this.canCreate) {
       this.bettingGameService.createGame(roomName, numPlayers, startingAmount);
-      window.location.reload();
+      // window.location.reload();
     }
     else
       alert(this.errorMessage);

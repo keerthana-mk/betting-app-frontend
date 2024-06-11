@@ -16,7 +16,8 @@
         </div>
 
         <div class="place-bet-container" *ngIf="unknownGameState()">
-            <div class="general-message"> OOPS! The game you tried to enter does not exist! Try joining other game!</div>
+            <div class="general-message"> OOPS! The game you tried to enter does not exist! Try joining other game!
+            </div>
             <button mat-button (click)="goToLobby()" class="lobby-button">Go Back</button>
         </div>
 
@@ -24,6 +25,16 @@
             <div class="waiting-message"> ROUND {{round}}</div>
             <div class="general-message"> Congratulations! You are the winner of the previous round!</div>
             <div class="general-message"> Please wait for other players to complete the current round!</div>
+
+            <div class="prev-bets-message" *ngIf="roundBets.length > 0"> Bets placed in previous round</div>
+            <div class="prev-round-details-container">
+                <div *ngFor="let betDetail of roundBets" class="round-player-info-container">
+                    <div class="card">
+                        <span></span>
+                        <div class="content">{{betDetail['betAmount']}}</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="place-bet-container" *ngIf="isGameComplete()">
@@ -39,14 +50,26 @@
                 {{getBetMessage()}}
             </div>
             <div class="input-container">
-                <input type="number" placeholder="Enter your bet amount..." value="{{betChosen}}"
+                <input placeholder="Enter your bet amount..." value="{{betChosen}}"
                     (keyup)="setBetChosen($event)" [readonly]="betPlaced">
                 <button class="button" (click)="isPlaceBetClicked()" [disabled]="betPlaced">Place Bet</button>
             </div>
-            <div class="timer-container">
+            <div class="timer-container" *ngIf="!betPlaced">
                 {{display}} seconds remaining
             </div>
+
+            <div class="prev-bets-message" *ngIf="roundBets.length > 0"> Bets placed in previous round</div>
+            <div class="prev-round-details-container">
+                <div *ngFor="let betDetail of roundBets" class="round-player-info-container">
+                    <div class="card">
+                        <span></span>
+                        <div class="content">{{betDetail['betAmount']}}</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        
     </div>
+
+
 </div>
